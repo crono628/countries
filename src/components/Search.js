@@ -51,9 +51,9 @@ const Search = ({
         <input onChange={onSearchChange} value={search} />
         <button onClick={onShowClick}>Show All</button>
       </span>
-      <div className="results">
+      <div>
         {showSwitch ? (
-          allCountries
+          <div className="results">{allCountries}</div>
         ) : buttonSwitch ? (
           filtered
         ) : search.length < 1 ? (
@@ -63,7 +63,7 @@ const Search = ({
         ) : allCountries.length < 2 ? (
           <JustOne importData={importData} search={search} />
         ) : (
-          allCountries
+          <div className="results">{allCountries}</div>
         )}
       </div>
     </>

@@ -15,12 +15,17 @@ const moreInfo = (data) => {
     const area = data[i].area;
     const languages = data[i].languages;
     const flag = data[i].flags.png;
+    const continent = data[i].continents;
+    const currency = data[i].currencies;
+
     arr.push({
       name: name,
       capital: capital,
       area: area,
       languages: languages,
       flag: flag,
+      continent: continent,
+      currency: currency,
     });
   }
   return arr;

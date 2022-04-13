@@ -9,9 +9,16 @@ const App = () => {
   const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
-    axios.get('https://restcountries.com/v3.1/all').then((response) => {
-      setCountries(response.data);
-    });
+    // axios.get('https://restcountries.com/v3.1/all').then((response) => {
+    //   setCountries(response.data);
+    //   console.log(countries);
+    // });
+    const fetchData = async () => {
+      const data = await fetch('https://restcountries.com/v3.1/all');
+      const json = await data.json();
+      setCountries(json);
+    };
+    fetchData().catch(console.error);
   }, []);
 
   const handleSearchChange = (e) => {
