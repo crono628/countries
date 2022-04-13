@@ -1,78 +1,72 @@
 import React from 'react';
 import uniqid from 'uniqid';
+import { getName } from './helpers/helpers';
+import JustOne from './JustOne';
 
-const Search = ({ onSearchChange, importData, search }) => {
-  const getName = (data) => {
-    let arr = [];
-    for (let i = 0; i < data.length; i++) {
-      const name = data[i].name.common;
-      arr.push(name);
+const Search = ({
+  onSearchChange,
+  searchClick,
+  importData,
+  search,
+  buttonSwitch,
+  showSwitch,
+  onShowClick,
+}) => {
+  let newArr = [...importData];
+
+  const filtered = newArr.map((item, index) => {
+    let selection;
+    if (newArr[index].name.common === search) {
+      selection = (
+        <JustOne key={uniqid()} importData={[item]} search={search} />
+      );
     }
-    return arr;
-  };
+    return selection;
+  });
 
-  const moreInfo = (data) => {
-    let arr = [];
-    for (let i = 0; i < data.length; i++) {
-      const name = data[i].name.common;
-      const capital = data[i].capital;
-      const area = data[i].area;
-      const languages = data[i].languages;
-      const flag = data[i].flags.png;
-      arr.push({
-        name: name,
-        capital: capital,
-        area: area,
-        languages: languages,
-        flag: flag,
-      });
-    }
-    console.log(arr);
-
-    return arr;
-  };
-
-  const countries = getName(importData)
-    .filter((item) => item.toLowerCase().includes(search.toLowerCase()))
-    .map((results) => {
-      return <div key={uniqid()}>{results}</div>;
-    });
-
-  const justOne = moreInfo(importData)
+  const allCountries = getName(importData)
     .filter((item) => item.name.toLowerCase().includes(search.toLowerCase()))
+    .sort((a, b) => {
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
+      return 0;
+    })
     .map((results) => {
-      let languageArr = [];
-      for (const key in results.languages) {
-        languageArr.push(<li>{results.languages[key]}</li>);
-      }
       return (
         <div key={uniqid()}>
-          <h1>{results.name}</h1>
-          <p>
-            Capital: <div>{results.capital}</div>
-          </p>
-          <p>
-            Area: <div>{results.area}</div>
-          </p>
-          Languages: <ul>{languageArr}</ul>
-          <img src={results.flag} />
+          <button
+            className="country-btn"
+            id={results.name}
+            onClick={searchClick}
+          >
+            {results.name}
+          </button>{' '}
         </div>
       );
     });
 
   return (
-    <div>
-      <input onChange={onSearchChange} />
-      <div>
-        {search.length < 1
-          ? 'Start typing to search for a country'
-          : countries.length > 10
-          ? 'Please narrow your search; over 10 matching results'
-          : countries.length < 2
-          ? justOne
-          : countries}
+    <>
+      <span>
+        <input onChange={onSearchChange} value={search} />
+        <button onClick={onShowClick}>Show All</button>
+      </span>
+      <div className="results">
+        {showSwitch ? (
+          allCountries
+        ) : buttonSwitch ? (
+          filtered
+        ) : search.length < 1 ? (
+          'Start typing to search for a country'
+        ) : allCountries.length > 10 ? (
+          'Please narrow your search; over 10 matching results'
+        ) : allCountries.length < 2 ? (
+          <JustOne importData={importData} search={search} />
+        ) : (
+          allCountries
+        )}
       </div>
-    </div>
+    </>
   );
 };
 

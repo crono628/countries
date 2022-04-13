@@ -18,3 +18,15 @@ img {
   border: solid black;
   width: 200px;
 }
+.results {
+  height: 400px;
+  overflow-y: scroll;
+}
+
+.country-btn {
+  border: none;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+  padding: 4px;
+}
