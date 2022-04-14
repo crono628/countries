@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import Search from './components/Search';
 
 const App = () => {
@@ -14,11 +14,16 @@ const App = () => {
     //   console.log(countries);
     // });
     const fetchData = async () => {
-      const data = await fetch('https://restcountries.com/v3.1/all');
-      const json = await data.json();
-      setCountries(json);
+      try {
+        const data = await fetch('https://restcountries.com/v3.1/all');
+        const json = await data.json();
+        setCountries(json);
+      } catch (error) {
+        console.log(error);
+      }
     };
-    fetchData().catch(console.error);
+
+    fetchData();
   }, []);
 
   const handleSearchChange = (e) => {
@@ -27,13 +32,13 @@ const App = () => {
     setShowAll(false);
   };
 
-  const handleSearchClick = (e) => {
+  const handleSpecificClick = (e) => {
     setSearch(e.target.id);
     setSelectButton(true);
     setShowAll(false);
   };
 
-  const handleShowClick = () => {
+  const handleShowAllClick = () => {
     setSelectButton(false);
     setSearch('');
     setShowAll(!showAll);
@@ -46,11 +51,12 @@ const App = () => {
           onSearchChange={handleSearchChange}
           search={search}
           importData={countries}
-          searchClick={handleSearchClick}
+          searchClick={handleSpecificClick}
           value={search}
           buttonSwitch={selectButton}
-          onShowClick={handleShowClick}
+          onShowClick={handleShowAllClick}
           showSwitch={showAll}
+          boolSwitch={selectButton}
         />
       }
     </div>

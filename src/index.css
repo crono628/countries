@@ -30,3 +30,15 @@ img {
   cursor: pointer;
   padding: 4px;
 }
+
+.weather-icon {
+  border: none;
+  width: 100px;
+  background-color: rgb(205, 235, 247);
+}
+
+.weather-div {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+}
